@@ -5,6 +5,7 @@ import com.terratech.api.model.User;
 import com.terratech.api.repositories.UserRepository;
 import com.terratech.api.services.UserService;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository repository;
+    private final ModelMapper modelMapper;
 
     @Override
     public User findById(Long id) {
@@ -23,15 +25,37 @@ public class UserServiceImpl implements UserService {
     public User create(UserRequest user) {
 
         User userToSave = user.toUser();
-        this.userAlreadyExists(userToSave.getEmail());
+        this.emailAlreadyExists(userToSave.getEmail());
 
         return this.repository.save(userToSave);
     }
 
-    private void userAlreadyExists(String email) {
+    @Override
+    public User update(Long id, UserRequest request) {
+
+        User user = this.userAlreadyExists(id);
+        this.emailAlreadyExists(request.email());
+
+        this.modelMapper.map(request.toUser(), user);
+
+        return this.repository.save(user);
+    }
+
+    @Override
+    public void delete(Long id) {
+        User user = this.userAlreadyExists(id);
+        this.repository.delete(user);
+    }
+
+    private void emailAlreadyExists(String email) {
         this.repository.findByEmail(email)
                 .ifPresent(u -> {
                     throw new RuntimeException("Email already exists");
                 });
+    }
+
+    private User userAlreadyExists(Long id) {
+        return this.repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found"));
     }
 }

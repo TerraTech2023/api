@@ -5,13 +5,15 @@ import com.terratech.api.model.Address;
 import com.terratech.api.model.Residue;
 import com.terratech.api.model.User;
 import com.terratech.api.repositories.UserRepository;
-import com.terratech.api.services.UserService;
+import com.terratech.api.services.implementaions.UserServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.modelmapper.ModelMapper;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -19,17 +21,16 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
-@SpringBootTest
+@ExtendWith(MockitoExtension.class)
 public class UserServiceTest {
 
-    @MockBean
+    @Mock
     private UserRepository repository;
 
-    @Autowired
-    private UserService userService;
+    @InjectMocks
+    private UserServiceImpl userService;
 
     private User user;
 
@@ -44,8 +45,14 @@ public class UserServiceTest {
                 .address(new Address("12345678", "92"))
                 .residues(List.of(new Residue()))
                 .build();
+
+        ModelMapper mapper = new ModelMapper();
+        mapper.getConfiguration().setSkipNullEnabled(true);
+
+        userService = new UserServiceImpl(repository, mapper);
     }
-//  FIND BY ID TESTES
+
+    //  FIND BY ID TESTES
     @Test
     void shouldReturnUserById() {
         when(repository.findById(anyLong())).thenReturn(Optional.of(user));
@@ -69,7 +76,7 @@ public class UserServiceTest {
         assertThrows(RuntimeException.class, () -> userService.findById(1L));
     }
 
-//    CREATE TESTES
+    //    CREATE TESTES
     @Test
     void shouldCreateUser() {
         UserRequest request = new UserRequest(user);
@@ -90,7 +97,7 @@ public class UserServiceTest {
         assertEquals(user.getDateOfBirth(), createdUser.getDateOfBirth());
         assertEquals(user.getAddress(), createdUser.getAddress());
         assertEquals(user.getResidues(), createdUser.getResidues());
-        assertFalse( createdUser.getResidues().isEmpty());
+        assertFalse(createdUser.getResidues().isEmpty());
     }
 
     @Test
@@ -101,4 +108,79 @@ public class UserServiceTest {
         assertThrows(RuntimeException.class, () -> userService.create(request));
     }
 
+    //    UPDATE TESTES
+    @Test
+    void shouldUpdateUser() {
+        User update = User.builder()
+                .name("John Doe")
+                .email("email@email.com")
+                .build();
+        UserRequest request = new UserRequest(update);
+
+        when(repository.findById(anyLong())).thenReturn(Optional.of(user));
+        when(repository.findByEmail(anyString())).thenReturn(Optional.empty());
+        when(repository.save(any(User.class))).thenReturn(user);
+
+        var updatedUser = userService.update(1L, request);
+
+        verify(repository, Mockito.times(1)).findById(anyLong());
+        verify(repository, Mockito.times(1)).findByEmail(anyString());
+        verify(repository, Mockito.times(1)).save(any(User.class));
+
+        assertNotNull(updatedUser);
+        assertEquals(user, updatedUser);
+        assertEquals(1L, updatedUser.getId());
+        assertEquals("John Doe", updatedUser.getName());
+        assertEquals("email@email.com", updatedUser.getEmail());
+        assertNotNull(updatedUser.getPassword());
+        assertNotNull(updatedUser.getDateOfBirth());
+        assertNotNull(updatedUser.getAddress());
+        assertNotNull(updatedUser.getResidues());
+        assertFalse(updatedUser.getResidues().isEmpty());
+    }
+
+    @Test
+    void shouldUpdateUserWithExceptionUserNotFound() {
+        User update = User.builder()
+                .name("John Doe")
+                .email("email@email.com")
+                .build();
+        UserRequest request = new UserRequest(update);
+
+        when(repository.findById(anyLong())).thenReturn(Optional.empty());
+
+        assertThrows(RuntimeException.class, () -> this.userService.update(1L, request));
+    }
+
+    @Test
+    void shouldUpdateUserWithExceptionEmailAlreadyExists() {
+        User update = User.builder()
+                .name("John Doe")
+                .email("email@email.com")
+                .build();
+        UserRequest request = new UserRequest(update);
+
+        when(repository.findById(anyLong())).thenReturn(Optional.of(user));
+        when(repository.findByEmail(anyString())).thenReturn(Optional.of(user));
+
+        assertThrows(RuntimeException.class, () -> this.userService.update(1L, request));
+    }
+
+    //    DELETE TESTES
+    @Test
+    void shouldDeleteUser() {
+        when(repository.findById(anyLong())).thenReturn(Optional.of(user));
+
+        this.userService.delete(1L);
+
+        verify(repository, times(1)).findById(anyLong());
+        verify(repository, times(1)).delete(any(User.class));
+    }
+
+    @Test
+    void shouldDeleteUserWithException() {
+        when(repository.findById(anyLong())).thenReturn(Optional.empty());
+
+        assertThrows(RuntimeException.class, () -> this.userService.delete(1L));
+    }
 }

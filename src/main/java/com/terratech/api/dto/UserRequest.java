@@ -20,8 +20,8 @@ public record UserRequest(
                 user.getEmail(),
                 user.getPassword(),
                 user.getDateOfBirth(),
-                user.getAddress().getCep(),
-                user.getAddress().getNumber());
+                user.getAddress() == null ? null : user.getAddress().getCep(),
+                user.getAddress() == null ? null : user.getAddress().getNumber());
     }
 
     public User toUser() {

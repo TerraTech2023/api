@@ -7,4 +7,8 @@ public interface UserService {
     User findById(Long id);
 
     User create(UserRequest user);
+
+    User update(Long id, UserRequest request);
+
+    void delete(Long id);
 }
