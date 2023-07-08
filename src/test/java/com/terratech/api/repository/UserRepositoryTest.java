@@ -52,4 +52,24 @@ public class UserRepositoryTest {
         assertEquals(userEntity, user.get());
     }
 
+    @Test
+    void shouldSaveUser(){
+        User user = User.builder()
+                .name("Teste")
+                .email("teste@gmail.com")
+                .password("teste123@")
+                .dateOfBirth(LocalDate.of(2000, 10, 10))
+                .address(new Address("12345678", "92"))
+                .residues(List.of(new Residue()))
+                .build();
+
+        User save = this.repository.save(user);
+
+        List<User> select = this.repository.findAll();
+
+        assertEquals(1, select.size());
+        assertEquals(save, select.get(0));
+
+    }
+
 }
