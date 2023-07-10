@@ -7,6 +7,10 @@ import com.terratech.api.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
+
+import static org.springframework.http.HttpStatus.CONFLICT;
+import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @Service
 @RequiredArgsConstructor
@@ -18,7 +22,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findById(Long id) {
         return this.repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "User not found"));
     }
 
     @Override
@@ -50,12 +54,12 @@ public class UserServiceImpl implements UserService {
     private void emailAlreadyExists(String email) {
         this.repository.findByEmail(email)
                 .ifPresent(u -> {
-                    throw new RuntimeException("Email already exists");
+                    throw new ResponseStatusException(CONFLICT, "Email already exists");
                 });
     }
 
     private User userAlreadyExists(Long id) {
         return this.repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "User not found"));
     }
 }
