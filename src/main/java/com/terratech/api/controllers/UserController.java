@@ -3,10 +3,10 @@ package com.terratech.api.controllers;
 import com.terratech.api.dto.UserRequest;
 import com.terratech.api.services.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import static org.springframework.http.HttpStatus.*;
 import static org.springframework.http.HttpStatus.OK;
 
 @RestController
@@ -23,7 +23,7 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity post(@RequestBody UserRequest user) {
-        return new ResponseEntity<>(userService.create(user), HttpStatus.CREATED);
+        return new ResponseEntity<>(userService.create(user), CREATED);
     }
 
 }
