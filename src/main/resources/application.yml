@@ -17,6 +17,10 @@ spring:
   application:
     name: api-rest-terra-tech
 
+server:
+  servlet:
+    context-path: /api
+
 #level de log
 logging:
   level:
@@ -24,3 +28,7 @@ logging:
     org:
       springframework:
         web: DEBUG
+
+springdoc:
+  swagger-ui:
+    path: /documentation
