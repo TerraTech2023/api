@@ -1,6 +1,8 @@
 package com.terratech.api.service;
 
 import com.terratech.api.dto.UserRequest;
+import com.terratech.api.exception.ConflictException;
+import com.terratech.api.exception.NotFoundException;
 import com.terratech.api.model.Address;
 import com.terratech.api.model.Residue;
 import com.terratech.api.model.User;
@@ -73,7 +75,7 @@ public class UserServiceTest {
     @Test
     void shouldReturnUserByIdWithException() {
         when(repository.findById(anyLong())).thenReturn(Optional.empty());
-        assertThrows(RuntimeException.class, () -> userService.findById(1L));
+        assertThrows(NotFoundException.class, () -> userService.findById(1L));
     }
 
     //    CREATE TESTES
@@ -105,7 +107,7 @@ public class UserServiceTest {
         UserRequest request = new UserRequest(user);
 
         when(repository.findByEmail(anyString())).thenReturn(Optional.of(user));
-        assertThrows(RuntimeException.class, () -> userService.create(request));
+        assertThrows(ConflictException.class, () -> userService.create(request));
     }
 
     //    UPDATE TESTES
@@ -149,7 +151,7 @@ public class UserServiceTest {
 
         when(repository.findById(anyLong())).thenReturn(Optional.empty());
 
-        assertThrows(RuntimeException.class, () -> this.userService.update(1L, request));
+        assertThrows(NotFoundException.class, () -> this.userService.update(1L, request));
     }
 
     @Test
@@ -163,7 +165,7 @@ public class UserServiceTest {
         when(repository.findById(anyLong())).thenReturn(Optional.of(user));
         when(repository.findByEmail(anyString())).thenReturn(Optional.of(user));
 
-        assertThrows(RuntimeException.class, () -> this.userService.update(1L, request));
+        assertThrows(ConflictException.class, () -> this.userService.update(1L, request));
     }
 
     //    DELETE TESTES
@@ -181,6 +183,6 @@ public class UserServiceTest {
     void shouldDeleteUserWithException() {
         when(repository.findById(anyLong())).thenReturn(Optional.empty());
 
-        assertThrows(RuntimeException.class, () -> this.userService.delete(1L));
+        assertThrows(NotFoundException.class, () -> this.userService.delete(1L));
     }
 }

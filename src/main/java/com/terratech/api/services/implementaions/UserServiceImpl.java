@@ -1,16 +1,14 @@
 package com.terratech.api.services.implementaions;
 
 import com.terratech.api.dto.UserRequest;
+import com.terratech.api.exception.ConflictException;
+import com.terratech.api.exception.NotFoundException;
 import com.terratech.api.model.User;
 import com.terratech.api.repositories.UserRepository;
 import com.terratech.api.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
-
-import static org.springframework.http.HttpStatus.CONFLICT;
-import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @Service
 @RequiredArgsConstructor
@@ -22,7 +20,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findById(Long id) {
         return this.repository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "User not found"));
+                .orElseThrow(() -> new NotFoundException("User not found"));
     }
 
     @Override
@@ -52,14 +50,14 @@ public class UserServiceImpl implements UserService {
     }
 
     private void emailAlreadyExists(String email) {
-        this.repository.findByEmail(email)
-                .ifPresent(u -> {
-                    throw new ResponseStatusException(CONFLICT, "Email already exists");
-                });
+        boolean emailUsed = this.repository.findByEmail(email).isPresent();
+
+        if (emailUsed)
+            throw new ConflictException("Email already used");
     }
 
-    private User userAlreadyExists(Long id) {
+    private User userAlreadyExists(Long id) throws NotFoundException {
         return this.repository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "User not found"));
+                .orElseThrow(() -> new NotFoundException("User not found"));
     }
 }
