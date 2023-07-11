@@ -29,11 +29,11 @@ Api que fazer a ponte entre o cliente e os coletores visando facilitar o descart
 1. clone o repositorio
 2. builde projeto:
 ```
-./mvnw clean package
+$ ./mvnw clean package
 ```
 3. execute:
 ```
-java -jar target/api-terra-tech-0.0.1-SNAPSHOT.jar
+$ java -jar target/api-terra-tech-0.0.1-SNAPSHOT.jar
 ```
 
 ## Endpoints da Api
