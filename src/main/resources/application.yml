@@ -31,4 +31,5 @@ logging:
 
 springdoc:
   swagger-ui:
+    url: /api-docs.yaml
     path: /documentation
