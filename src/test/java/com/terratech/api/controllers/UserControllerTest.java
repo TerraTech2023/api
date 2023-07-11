@@ -2,6 +2,9 @@ package com.terratech.api.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.terratech.api.dto.UserRequest;
+import com.terratech.api.exception.ConflictException;
+import com.terratech.api.exception.ExceptionController;
+import com.terratech.api.exception.NotFoundException;
 import com.terratech.api.model.Address;
 import com.terratech.api.model.Residue;
 import com.terratech.api.model.User;
@@ -26,6 +29,7 @@ import static org.springframework.http.HttpStatus.CONFLICT;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith({SpringExtension.class})
@@ -62,19 +66,21 @@ public class UserControllerTest {
 
         when(userService.findById(anyLong())).thenReturn(user);
 
-        mockMvc.perform(get("/api/v1/users/1")
+        mockMvc.perform(get("/v1/users/1")
                         .accept("application/json"))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("name").value("Teste"));
     }
 
     @Test
     void shouldReturnNotFound() throws Exception {
 
         when(userService.findById(anyLong()))
-                .thenThrow(new ResponseStatusException(NOT_FOUND, "User not found"));
+                .thenThrow(new NotFoundException("User not found"));
 
-        mockMvc.perform(get("/api/v1/users/1"))
-                .andExpect(status().isNotFound());
+        mockMvc.perform(get("/v1/users/1"))
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("message").value("User not found"));
     }
 
     @Test
@@ -86,7 +92,7 @@ public class UserControllerTest {
 
         var json = objectMapper.writeValueAsString(request);
 
-        mockMvc.perform(post("/api/v1/users")
+        mockMvc.perform(post("/v1/users")
                         .accept("application/json")
                         .contentType("application/json")
                         .content(json))
@@ -97,13 +103,13 @@ public class UserControllerTest {
     void shouldCreateReturnConflict() throws Exception {
 
         when(userService.create(any(UserRequest.class)))
-                .thenThrow(new ResponseStatusException(CONFLICT, "Email already exists"));
+                .thenThrow(new ConflictException("Email already exists"));
 
         var request = new UserRequest(user);
 
         var json = objectMapper.writeValueAsString(request);
 
-        mockMvc.perform(post("/api/v1/users")
+        mockMvc.perform(post("/v1/users")
                         .accept("application/json")
                         .contentType("application/json")
                         .content(json))
