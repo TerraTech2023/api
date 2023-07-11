@@ -56,7 +56,7 @@ public class UserServiceImpl implements UserService {
             throw new ConflictException("Email already used");
     }
 
-    private User userAlreadyExists(Long id) throws NotFoundException {
+    private User userAlreadyExists(Long id) {
         return this.repository.findById(id)
                 .orElseThrow(() -> new NotFoundException("User not found"));
     }

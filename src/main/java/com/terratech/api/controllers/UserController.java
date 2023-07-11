@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import static org.springframework.http.HttpStatus.*;
+import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.OK;
 
 @RestController
@@ -24,6 +24,17 @@ public class UserController {
     @PostMapping
     public ResponseEntity post(@RequestBody UserRequest user) {
         return new ResponseEntity<>(userService.create(user), CREATED);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity put(@PathVariable("id") Long id, @RequestBody UserRequest user) {
+        return new ResponseEntity<>(userService.update(id, user), OK);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity delete(@PathVariable("id") Long id) {
+        userService.delete(id);
+        return new ResponseEntity<>(OK);
     }
 
 }
