@@ -22,8 +22,7 @@ import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -175,6 +174,8 @@ public class UserControllerTest {
     @Test
     void shouldDeleteUser() throws Exception {
 
+        doNothing().when(userService).delete(anyLong());
+
         mockMvc.perform(delete("/v1/users/1")
                         .accept("application/json"))
                 .andExpect(status().isOk());
@@ -183,7 +184,7 @@ public class UserControllerTest {
     @Test
     void shouldDeleteReturnNotFound() throws Exception {
 
-        doThrow(NotFoundException.class).when(userService).delete(anyLong());
+        doThrow(new NotFoundException("User not found")).when(userService).delete(anyLong());
 
         mockMvc.perform(delete("/v1/users/1")
                         .accept("application/json"))
