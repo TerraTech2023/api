@@ -45,7 +45,7 @@ endereço da api [localhost:8080/api](http://localhost:8080/api)
    ```
    /documentation
    ```
-## 3.  Usuário
+## 2.  Usuário
    - GET
      ```
      /v1/users/{id}
@@ -82,5 +82,71 @@ endereço da api [localhost:8080/api](http://localhost:8080/api)
      ```
      /v1/users/{id}
      ```
-3. coletore
-4. resido
+   - NOTIFY
+     ```
+     /v1/users/notify
+     ```
+## 3. coletores
+   - GET
+     ```
+     /v1/collectors/{id}
+     ```
+     Resposta:
+     ```
+      {
+         "id": 1,
+         "name": "John Doe",
+         "email": "john@doe.com",
+         "password": "password",
+         "dateOfBirth": "YYYY-mm-dd",
+      }
+     ```
+   - POST
+      - cadastro 
+     ```
+     /v1/collectors/register
+     ```
+     - login
+     ```
+     /v1/collectors/register
+     ```
+   - PUT
+     ```
+     /v1/collectors/{id}
+     ```
+   - DELETE
+     ```
+     /v1/collectors/{id}
+     ```
+   - RECEIVE - NOTIFICATION
+     ```
+     /v1/collectors/notification
+     ```
+## 4. residuo
+   - GET
+     ```
+     /v1/users/{id}
+     ```
+     Resposta:
+     ```
+      {
+         "id": 1,
+         "tipo": "plastico",
+         "estado": "não sei o que colocar",
+         "quantidade": "1",
+         "descricao": "descricão",
+      }
+     ```
+   - POST
+      - cadastro 
+     ```
+     /v1/users/register
+     ```
+   - PUT
+     ```
+     /v1/users/{id}
+     ```
+   - DELETE
+     ```
+     /v1/users/{id}
+     ```
