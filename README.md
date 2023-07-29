@@ -47,29 +47,34 @@ endereço da api [localhost:8080/api](http://localhost:8080/api)
    ```
 ## 2. Auth
    - POST
-     - cadastro
+     
+   - cadastro
        
-      - User
-       
-      ```
-      /auth/register
-      ```
-      Enviar :
-      ```
-       {
-          "name": "John Doe",
-          "email": "john@doe.com",
-          "password": "password",
-          "confirmPassword": "password",
-          "dateOfBirth": "YYYY-mm-dd",
-          "role": "USER"
-       }
-      ```
+     ```
+     /auth/register
+     ```
+     
+     Enviar :
+     
+     ```
+      {
+         "name": "John Doe",
+         "email": "john@doe.com",
+         "password": "password",
+         "confirmPassword": "password",
+         "dateOfBirth": "YYYY-mm-dd",
+         "role": "USER"
+      }
+     ```
+     
      - login
+       
      ```
      /auth/login
      ```
+     
      Enviar:
+     
      ```
      {
        "email": "john@doe.com",
