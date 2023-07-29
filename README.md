@@ -125,14 +125,14 @@ endereço da api [localhost:8080/api](http://localhost:8080/api)
 ## 4. residuo
    - GET
      ```
-     /v1/users/{id}
+     /residue/{id}
      ```
      Resposta:
      ```
       {
          "id": 1,
-         "tipo": "plastico",
-         "estado": "não sei o que colocar",
+         "tipo": "PLASTICO",
+         "estado": "PENDENTE",
          "quantidade": "1",
          "descricao": "descricão",
       }
@@ -140,13 +140,13 @@ endereço da api [localhost:8080/api](http://localhost:8080/api)
    - POST
       - cadastro 
      ```
-     /v1/users/register
+     /residue/register
      ```
    - PUT
      ```
-     /v1/users/{id}
+     /residue/{id}
      ```
    - DELETE
      ```
-     /v1/users/{id}
+     /residue/{id}
      ```
