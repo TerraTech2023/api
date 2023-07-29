@@ -41,11 +41,11 @@ $ java -jar target/api-terra-tech-0.0.1-SNAPSHOT.jar
 endereço da api [localhost:8080/api](http://localhost:8080/api)
 
 
-1. swagger
+## 1. Swagger
    ```
    /documentation
    ```
-3.  usuario
+## 3.  Usuário
    - GET
      ```
      /v1/users/{id}
