@@ -45,7 +45,52 @@ endereço da api [localhost:8080/api](http://localhost:8080/api)
    ```
    /documentation
    ```
-## 2.  Usuário
+## 2. Auth
+   - POST
+      - cadastro 
+     ```
+     /auth/users/register
+     ```
+     Enviar :
+     ```
+      {
+         "name": "John Doe",
+         "email": "john@doe.com",
+         "password": "password",
+         "confirmPassword": "password",
+         "dateOfBirth": "YYYY-mm-dd",
+         "address": {
+              "cep": "00000000",
+              "number": "00"
+         },
+      }
+     ```
+     ```
+     /auth/collectors/register
+     ```
+     Enviar :
+     ```
+      {
+         "name": "John Doe",
+         "email": "john@doe.com",
+         "password": "password",
+         "confirmPassword": "password",
+         "dateOfBirth": "YYYY-mm-dd",
+      }
+     ```
+     - login
+     ```
+     /auth/users/  or /auth/collectors/
+     ```
+     Enviar:
+     ```
+     {
+       "email": "john@doe.com",
+       "password": "password",
+     }
+     ```
+
+## 3. Usuário
    - GET
      ```
      /v1/users/{id}
@@ -65,15 +110,6 @@ endereço da api [localhost:8080/api](http://localhost:8080/api)
          "residues": []
       }
      ```
-   - POST
-      - cadastro 
-     ```
-     /v1/users/register
-     ```
-     - login
-     ```
-     /v1/users/register
-     ```
    - PUT
      ```
      /v1/users/{id}
@@ -86,7 +122,7 @@ endereço da api [localhost:8080/api](http://localhost:8080/api)
      ```
      /v1/users/notify
      ```
-## 3. coletores
+## 4. coletores
    - GET
      ```
      /v1/collectors/{id}
@@ -101,15 +137,6 @@ endereço da api [localhost:8080/api](http://localhost:8080/api)
          "dateOfBirth": "YYYY-mm-dd",
       }
      ```
-   - POST
-      - cadastro 
-     ```
-     /v1/collectors/register
-     ```
-     - login
-     ```
-     /v1/collectors/register
-     ```
    - PUT
      ```
      /v1/collectors/{id}
@@ -122,12 +149,12 @@ endereço da api [localhost:8080/api](http://localhost:8080/api)
      ```
      /v1/collectors/notification
      ```
-## 4. residuo
+## 5. residuo
    - GET
      ```
      /residue/{id}
      ```
-     Resposta:
+     Resposta :
      ```
       {
          "id": 1,
@@ -141,6 +168,16 @@ endereço da api [localhost:8080/api](http://localhost:8080/api)
       - cadastro 
      ```
      /residue/register
+     ```
+     Enviar :
+     ```
+      {
+         "id": 1,
+         "tipo": "PLASTICO",
+         "estado": "PENDENTE",
+         "quantidade": "1",
+         "descricao": "descricão",
+      }
      ```
    - PUT
      ```
