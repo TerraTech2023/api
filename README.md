@@ -52,7 +52,7 @@ endereço da api [localhost:8080/api](http://localhost:8080/api)
       - User
        
       ```
-      /auth/users/register
+      /auth/register
       ```
       Enviar :
       ```
@@ -62,30 +62,12 @@ endereço da api [localhost:8080/api](http://localhost:8080/api)
           "password": "password",
           "confirmPassword": "password",
           "dateOfBirth": "YYYY-mm-dd",
-          "address": {
-               "cep": "00000000",
-               "number": "00"
-          },
-       }
-      ```
-      - Collector
-      
-      ```
-      /auth/collectors/register
-      ```
-      Enviar :
-      ```
-       {
-          "name": "John Doe",
-          "email": "john@doe.com",
-          "password": "password",
-          "confirmPassword": "password",
-          "dateOfBirth": "YYYY-mm-dd",
+          "role": "USER"
        }
       ```
      - login
      ```
-     /auth/users/  or /auth/collectors/
+     /auth/login
      ```
      Enviar:
      ```
