@@ -47,37 +47,42 @@ endereço da api [localhost:8080/api](http://localhost:8080/api)
    ```
 ## 2. Auth
    - POST
-      - cadastro 
-     ```
-     /auth/users/register
-     ```
-     Enviar :
-     ```
-      {
-         "name": "John Doe",
-         "email": "john@doe.com",
-         "password": "password",
-         "confirmPassword": "password",
-         "dateOfBirth": "YYYY-mm-dd",
-         "address": {
-              "cep": "00000000",
-              "number": "00"
-         },
-      }
-     ```
-     ```
-     /auth/collectors/register
-     ```
-     Enviar :
-     ```
-      {
-         "name": "John Doe",
-         "email": "john@doe.com",
-         "password": "password",
-         "confirmPassword": "password",
-         "dateOfBirth": "YYYY-mm-dd",
-      }
-     ```
+     - cadastro
+       
+      - User
+       
+      ```
+      /auth/users/register
+      ```
+      Enviar :
+      ```
+       {
+          "name": "John Doe",
+          "email": "john@doe.com",
+          "password": "password",
+          "confirmPassword": "password",
+          "dateOfBirth": "YYYY-mm-dd",
+          "address": {
+               "cep": "00000000",
+               "number": "00"
+          },
+       }
+      ```
+      - Collector
+      
+      ```
+      /auth/collectors/register
+      ```
+      Enviar :
+      ```
+       {
+          "name": "John Doe",
+          "email": "john@doe.com",
+          "password": "password",
+          "confirmPassword": "password",
+          "dateOfBirth": "YYYY-mm-dd",
+       }
+      ```
      - login
      ```
      /auth/users/  or /auth/collectors/
