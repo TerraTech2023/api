@@ -102,6 +102,23 @@ endereço da api [localhost:8080/api](http://localhost:8080/api)
          "residues": []
       }
      ```
+     
+     - POST
+     
+     - REGISTER 
+     ```
+     /residue/register
+     ```
+     TO SEND :
+     ```
+      {
+         "tipo": "PLASTICO",
+         "estado": "PENDENTE",
+         "quantidade": "1",
+         "descricao": "descricão",
+      }
+     ```
+     
    - PUT
      ```
      /v1/users/{id}
@@ -158,22 +175,7 @@ endereço da api [localhost:8080/api](http://localhost:8080/api)
          "descricao": "descricão",
       }
      ```
-   - POST
      
-     - REGISTER 
-     ```
-     /residue/register
-     ```
-     TO SEND :
-     ```
-      {
-         "id": 1,
-         "tipo": "PLASTICO",
-         "estado": "PENDENTE",
-         "quantidade": "1",
-         "descricao": "descricão",
-      }
-     ```
    - PUT
      ```
      /residue/{id}
