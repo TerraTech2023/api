@@ -1,5 +1,6 @@
 package com.terratech.api.controllers;
 
+import com.terratech.api.dto.Message;
 import com.terratech.api.dto.user.UserRequest;
 import com.terratech.api.dto.user.UserResponse;
 import com.terratech.api.services.UserService;
@@ -15,24 +16,27 @@ import static org.springframework.http.HttpStatus.OK;
 public class UserController {
 
     private final UserService userService;
+    private Message response;
 
     @GetMapping("/{id}")
     public ResponseEntity<UserResponse> getOne(@PathVariable("id") Long id) {
-        UserResponse response = this.userService.findById(id);
+        var response = this.userService.findById(id);
         return new ResponseEntity<>(response, OK);
     }
 
 
     @PutMapping("/{id}")
-    public ResponseEntity<String> put(@PathVariable("id") Long id, @RequestBody UserRequest user) {
+    public ResponseEntity<Message> put(@PathVariable("id") Long id, @RequestBody UserRequest user) {
+        this.response = new Message("SUCCESSFULLY UPDATED USER");
         this.userService.update(id, user);
-        return new ResponseEntity<>("SUCCESSFULLY UPDATED COLLECTOR", OK);
+        return new ResponseEntity<>(this.response, OK);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> delete(@PathVariable("id") Long id) {
+    public ResponseEntity<Message> delete(@PathVariable("id") Long id) {
+        this.response = new Message("SUCCESSFULLY DELETED USER");
         this.userService.delete(id);
-        return new ResponseEntity<>("SUCCESSFULLY DELETED COLLECTOR",OK);
+        return new ResponseEntity<>(this.response,OK);
     }
 
 }

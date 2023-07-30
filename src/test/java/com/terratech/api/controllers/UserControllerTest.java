@@ -2,6 +2,7 @@ package com.terratech.api.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.terratech.api.dto.user.UserRequest;
+import com.terratech.api.dto.user.UserResponse;
 import com.terratech.api.exception.ConflictException;
 import com.terratech.api.exception.NotFoundException;
 import com.terratech.api.model.Address;
@@ -16,6 +17,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -59,12 +61,14 @@ public class UserControllerTest {
     @Test
     void shouldReturnUser() throws Exception {
 
-        when(userService.findById(anyLong())).thenReturn(user);
+        when(userService.findById(anyLong())).thenReturn(new UserResponse(user));
+
+        String userWriteAsString = objectMapper.writeValueAsString(new UserResponse(user));
 
         mockMvc.perform(get("/v1/users/1")
                         .accept("application/json"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("name").value("Teste"));
+                .andExpect(MockMvcResultMatchers.content().json(userWriteAsString));
     }
 
     @Test
@@ -78,45 +82,13 @@ public class UserControllerTest {
                 .andExpect(jsonPath("message").value("User not found"));
     }
 
-    @Test
-    void shouldCreateUser() throws Exception {
-
-        when(userService.findById(anyLong())).thenReturn(user);
-
-        var request = new UserRequest(user);
-
-        var json = objectMapper.writeValueAsString(request);
-
-        mockMvc.perform(post("/v1/users")
-                        .accept("application/json")
-                        .contentType("application/json")
-                        .content(json))
-                .andExpect(status().isCreated());
-    }
-
-    @Test
-    void shouldCreateReturnConflict() throws Exception {
-
-        when(userService.create(any(UserRequest.class)))
-                .thenThrow(new ConflictException("Email already exists"));
-
-        var request = new UserRequest(user);
-
-        var json = objectMapper.writeValueAsString(request);
-
-        mockMvc.perform(post("/v1/users")
-                        .accept("application/json")
-                        .contentType("application/json")
-                        .content(json))
-                .andExpect(status().isConflict());
-    }
 
     @Test
     void shouldUpdateUser() throws Exception {
 
         user.setEmail("update@email.com");
 
-        when(userService.update(anyLong(), any(UserRequest.class))).thenReturn(user);
+        doNothing().when(userService).update(anyLong(), any(UserRequest.class));
 
         var request = new UserRequest(user);
 
@@ -127,19 +99,15 @@ public class UserControllerTest {
                         .contentType("application/json")
                         .content(json))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("email").value(user.getEmail()))
-                .andExpect(jsonPath("name").value(user.getName()))
-                .andExpect(jsonPath("password").value(user.getPassword()))
-                .andExpect(jsonPath("dateOfBirth").value(user.getDateOfBirth().toString()))
-                .andExpect(jsonPath("address.cep").value(user.getAddress().getCep()))
-                .andExpect(jsonPath("address.number").value(user.getAddress().getNumber()));
+                .andExpect(jsonPath("message").value("SUCCESSFULLY UPDATED USER"));
     }
 
     @Test
     void shouldUpdateReturnNotFound() throws Exception {
 
-        when(userService.update(anyLong(), any(UserRequest.class)))
-                .thenThrow(new NotFoundException("User not found"));
+        doThrow(new NotFoundException("User not found"))
+                .when(userService)
+                .update(anyLong(), any(UserRequest.class));
 
         var request = new UserRequest(user);
 
@@ -156,8 +124,9 @@ public class UserControllerTest {
     @Test
     void shouldUpdateReturnConflict() throws Exception {
 
-        when(userService.update(anyLong(), any(UserRequest.class)))
-                .thenThrow(new ConflictException("Email already exists"));
+        doThrow(new ConflictException("Email already exists"))
+                .when(userService)
+                .update(anyLong(), any(UserRequest.class));
 
         var request = new UserRequest(user);
 
@@ -184,7 +153,9 @@ public class UserControllerTest {
     @Test
     void shouldDeleteReturnNotFound() throws Exception {
 
-        doThrow(new NotFoundException("User not found")).when(userService).delete(anyLong());
+        doThrow(new NotFoundException("User not found"))
+                .when(userService)
+                .delete(anyLong());
 
         mockMvc.perform(delete("/v1/users/1")
                         .accept("application/json"))
