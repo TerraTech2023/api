@@ -13,7 +13,6 @@ import lombok.experimental.SuperBuilder;
 @Data
 @SuperBuilder
 @NoArgsConstructor
-@AllArgsConstructor
 @Table(name = "collectors")
 public class Collector extends Person {
 }
