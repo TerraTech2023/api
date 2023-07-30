@@ -1,6 +1,7 @@
 package com.terratech.api.services.implementaions;
 
-import com.terratech.api.dto.UserRequest;
+import com.terratech.api.dto.user.UserRequest;
+import com.terratech.api.dto.user.UserResponse;
 import com.terratech.api.exception.ConflictException;
 import com.terratech.api.exception.NotFoundException;
 import com.terratech.api.model.User;
@@ -18,29 +19,21 @@ public class UserServiceImpl implements UserService {
     private final ModelMapper modelMapper;
 
     @Override
-    public User findById(Long id) {
-        return this.repository.findById(id)
-                .orElseThrow(() -> new NotFoundException("User not found"));
+    public UserResponse findById(Long id) {
+        User user = this.userAlreadyExists(id);
+        return new UserResponse(user);
     }
 
-    @Override
-    public User create(UserRequest user) {
-
-        User userToSave = user.toUser();
-        this.emailAlreadyExists(userToSave.getEmail());
-
-        return this.repository.save(userToSave);
-    }
 
     @Override
-    public User update(Long id, UserRequest request) {
+    public void update(Long id, UserRequest request) {
 
         User user = this.userAlreadyExists(id);
         this.emailAlreadyExists(request.email());
 
         this.modelMapper.map(request.toUser(), user);
 
-        return this.repository.save(user);
+        this.repository.save(user);
     }
 
     @Override

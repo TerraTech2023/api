@@ -1,7 +1,7 @@
 package com.terratech.api.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.terratech.api.dto.UserRequest;
+import com.terratech.api.dto.user.UserRequest;
 import com.terratech.api.exception.ConflictException;
 import com.terratech.api.exception.NotFoundException;
 import com.terratech.api.model.Address;

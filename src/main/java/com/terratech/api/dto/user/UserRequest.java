@@ -1,4 +1,4 @@
-package com.terratech.api.dto;
+package com.terratech.api.dto.user;
 
 import com.terratech.api.model.Address;
 import com.terratech.api.model.User;

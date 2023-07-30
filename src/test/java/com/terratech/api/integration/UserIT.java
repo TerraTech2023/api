@@ -1,6 +1,6 @@
 package com.terratech.api.integration;
 
-import com.terratech.api.dto.UserRequest;
+import com.terratech.api.dto.user.UserRequest;
 import com.terratech.api.exception.ErrorResponse;
 import com.terratech.api.model.User;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;

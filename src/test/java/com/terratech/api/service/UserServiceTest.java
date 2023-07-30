@@ -1,6 +1,6 @@
 package com.terratech.api.service;
 
-import com.terratech.api.dto.UserRequest;
+import com.terratech.api.dto.user.UserRequest;
 import com.terratech.api.exception.ConflictException;
 import com.terratech.api.exception.NotFoundException;
 import com.terratech.api.model.Address;

@@ -4,6 +4,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
@@ -15,6 +16,7 @@ import java.time.LocalDate;
 @Data
 @SuperBuilder
 @MappedSuperclass
+
 public abstract class Person {
     @Id
     @GeneratedValue
