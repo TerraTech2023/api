@@ -18,6 +18,7 @@ Api que fazer a ponte entre o cliente e os coletores visando facilitar o descart
    - [Spring MVC](https://docs.spring.io/spring-framework/reference/web.html)
 
 ## Práticas Utilizadas
+- TDD
 - SOLID
 - Observer
 - Injeção de Dependencia
