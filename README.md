@@ -48,13 +48,13 @@ endereço da api [localhost:8080/api](http://localhost:8080/api)
 ## 2. Auth
    - POST
      
-   - cadastro
+   - REGISTER
        
      ```
      /auth/register
      ```
      
-     Enviar :
+     TO SEND :
      
      ```
       {
@@ -67,13 +67,13 @@ endereço da api [localhost:8080/api](http://localhost:8080/api)
       }
      ```
      
-     - login
+   - LOGIN
        
      ```
      /auth/login
      ```
      
-     Enviar:
+     TO SEND :
      
      ```
      {
@@ -87,7 +87,7 @@ endereço da api [localhost:8080/api](http://localhost:8080/api)
      ```
      /v1/users/{id}
      ```
-     Resposta:
+     RESPONSE :
      ```
       {
          "id": 1,
@@ -114,12 +114,13 @@ endereço da api [localhost:8080/api](http://localhost:8080/api)
      ```
      /v1/users/notify
      ```
-## 4. coletores
+## 4. COLLECTORS
+
    - GET
      ```
      /v1/collectors/{id}
      ```
-     Resposta:
+     RESPONSE :
      ```
       {
          "id": 1,
@@ -141,12 +142,13 @@ endereço da api [localhost:8080/api](http://localhost:8080/api)
      ```
      /v1/collectors/notification
      ```
-## 5. residuo
+## 5. RESIDUE
+
    - GET
      ```
      /residue/{id}
      ```
-     Resposta :
+     RESPONSE :
      ```
       {
          "id": 1,
@@ -157,11 +159,12 @@ endereço da api [localhost:8080/api](http://localhost:8080/api)
       }
      ```
    - POST
-      - cadastro 
+     
+     - REGISTER 
      ```
      /residue/register
      ```
-     Enviar :
+     TO SEND :
      ```
       {
          "id": 1,
