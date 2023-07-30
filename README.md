@@ -63,7 +63,7 @@ endereço da api [localhost:8080/api](http://localhost:8080/api)
          "password": "password",
          "confirmPassword": "password",
          "dateOfBirth": "YYYY-mm-dd",
-         "role": "USER"
+         "role": "USER or COLLECTOR"
       }
      ```
      
