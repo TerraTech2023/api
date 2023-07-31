@@ -6,9 +6,6 @@ import com.terratech.api.model.User;
 
 public interface UserService {
     UserResponse findById(Long id);
-
-
     void update(Long id, UserRequest request);
-
     void delete(Long id);
 }

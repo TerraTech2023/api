@@ -1,6 +1,7 @@
 package com.terratech.api.service;
 
 import com.terratech.api.dto.user.UserRequest;
+import com.terratech.api.dto.user.UserResponse;
 import com.terratech.api.exception.ConflictException;
 import com.terratech.api.exception.NotFoundException;
 import com.terratech.api.model.Address;
@@ -60,12 +61,16 @@ public class UserServiceTest {
         when(repository.findById(anyLong())).thenReturn(Optional.of(user));
 
         var dateNow = LocalDate.now();
-        User getUser = userService.findById(1L);
+        UserResponse getUser = userService.findById(1L);
 
         assertNotNull(getUser);
-        assertEquals(1L, getUser.getId());
+        assertEquals(user.getName(), getUser.name());
+        assertEquals(user.getEmail(), getUser.email());
+        assertEquals(user.getAddress(), getUser.address());
+        assertEquals(user.getResidues(), getUser.residues());
+        assertEquals(user.getResidues().size(), getUser.residues().size());
 
-        var age = getUser.getDateOfBirth().until(dateNow).getYears();
+        var age = getUser.dateOfBirth().until(dateNow).getYears();
 
         assertEquals(22, age);
         assertTrue(17 < age);
@@ -76,38 +81,6 @@ public class UserServiceTest {
     void shouldReturnUserByIdWithException() {
         when(repository.findById(anyLong())).thenReturn(Optional.empty());
         assertThrows(NotFoundException.class, () -> userService.findById(1L));
-    }
-
-    //    CREATE TESTES
-    @Test
-    void shouldCreateUser() {
-        UserRequest request = new UserRequest(user);
-
-        when(repository.save(any(User.class))).thenReturn(user);
-        when(repository.findByEmail(anyString())).thenReturn(Optional.empty());
-        var createdUser = userService.create(request);
-
-        verify(repository, Mockito.times(1)).save(any(User.class));
-        verify(repository, Mockito.times(1)).findByEmail(anyString());
-
-        assertNotNull(createdUser);
-        assertEquals(user, createdUser);
-        assertEquals(user.getId(), createdUser.getId());
-        assertEquals(user.getName(), createdUser.getName());
-        assertEquals(user.getEmail(), createdUser.getEmail());
-        assertEquals(user.getPassword(), createdUser.getPassword());
-        assertEquals(user.getDateOfBirth(), createdUser.getDateOfBirth());
-        assertEquals(user.getAddress(), createdUser.getAddress());
-        assertEquals(user.getResidues(), createdUser.getResidues());
-        assertFalse(createdUser.getResidues().isEmpty());
-    }
-
-    @Test
-    void shouldCreateUserWithException() {
-        UserRequest request = new UserRequest(user);
-
-        when(repository.findByEmail(anyString())).thenReturn(Optional.of(user));
-        assertThrows(ConflictException.class, () -> userService.create(request));
     }
 
     //    UPDATE TESTES
@@ -123,22 +96,20 @@ public class UserServiceTest {
         when(repository.findByEmail(anyString())).thenReturn(Optional.empty());
         when(repository.save(any(User.class))).thenReturn(user);
 
-        var updatedUser = userService.update(1L, request);
+        userService.update(1L, request);
 
         verify(repository, Mockito.times(1)).findById(anyLong());
         verify(repository, Mockito.times(1)).findByEmail(anyString());
         verify(repository, Mockito.times(1)).save(any(User.class));
 
-        assertNotNull(updatedUser);
-        assertEquals(user, updatedUser);
-        assertEquals(1L, updatedUser.getId());
-        assertEquals("John Doe", updatedUser.getName());
-        assertEquals("email@email.com", updatedUser.getEmail());
-        assertNotNull(updatedUser.getPassword());
-        assertNotNull(updatedUser.getDateOfBirth());
-        assertNotNull(updatedUser.getAddress());
-        assertNotNull(updatedUser.getResidues());
-        assertFalse(updatedUser.getResidues().isEmpty());
+
+        assertEquals("John Doe", user.getName());
+        assertEquals("email@email.com", user.getEmail());
+        assertNotNull(user.getPassword());
+        assertNotNull(user.getDateOfBirth());
+        assertNotNull(user.getAddress());
+        assertNotNull(user.getResidues());
+        assertFalse(user.getResidues().isEmpty());
     }
 
     @Test
@@ -151,7 +122,7 @@ public class UserServiceTest {
 
         when(repository.findById(anyLong())).thenReturn(Optional.empty());
 
-        assertThrows(NotFoundException.class, () -> this.userService.update(1L, request));
+        assertThrows(NotFoundException.class, () -> this.userService.update(1L, request), "User not found");
     }
 
     @Test
@@ -165,7 +136,7 @@ public class UserServiceTest {
         when(repository.findById(anyLong())).thenReturn(Optional.of(user));
         when(repository.findByEmail(anyString())).thenReturn(Optional.of(user));
 
-        assertThrows(ConflictException.class, () -> this.userService.update(1L, request));
+        assertThrows(ConflictException.class, () -> this.userService.update(1L, request), "Email already exists");
     }
 
     //    DELETE TESTES
@@ -183,6 +154,6 @@ public class UserServiceTest {
     void shouldDeleteUserWithException() {
         when(repository.findById(anyLong())).thenReturn(Optional.empty());
 
-        assertThrows(NotFoundException.class, () -> this.userService.delete(1L));
+        assertThrows(NotFoundException.class, () -> this.userService.delete(1L), "User not found");
     }
 }
