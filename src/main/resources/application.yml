@@ -1,0 +1,35 @@
+spring:
+# Configurações do banco de dados
+  datasource:
+    url: jdbc:h2:mem:testdb
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+
+    jpa:
+      hibernate:
+        ddl-auto: create-drop
+        show-sql: true
+      properties:
+        hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+
+  application:
+    name: api-rest-terra-tech
+
+server:
+  servlet:
+    context-path: /api
+
+#level de log
+logging:
+  level:
+    root: INFO
+    org:
+      springframework:
+        web: DEBUG
+
+springdoc:
+  swagger-ui:
+    url: /api-docs.yaml
+    path: /documentation
