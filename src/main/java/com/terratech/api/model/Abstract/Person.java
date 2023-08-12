@@ -1,5 +1,6 @@
 package com.terratech.api.model.Abstract;
 
+import com.terratech.api.model.enums.Role;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
@@ -25,4 +26,5 @@ public abstract class Person {
     private String email;
     private String password;
     private LocalDate dateOfBirth;
+    private Role role;
 }
