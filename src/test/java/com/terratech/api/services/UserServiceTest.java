@@ -1,4 +1,4 @@
-package com.terratech.api.service;
+package com.terratech.api.services;
 
 import com.terratech.api.dto.user.UserRequest;
 import com.terratech.api.dto.user.UserResponse;

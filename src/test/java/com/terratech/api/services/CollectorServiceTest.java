@@ -1,4 +1,4 @@
-package com.terratech.api.service;
+package com.terratech.api.services;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
