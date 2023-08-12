@@ -1,4 +1,4 @@
-package com.terratech.api.exception;
+package com.terratech.api.error;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 

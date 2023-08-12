@@ -2,8 +2,8 @@ package com.terratech.api.services.implementaions;
 
 import com.terratech.api.dto.user.UserRequest;
 import com.terratech.api.dto.user.UserResponse;
-import com.terratech.api.exception.ConflictException;
-import com.terratech.api.exception.NotFoundException;
+import com.terratech.api.error.exceptions.ConflictException;
+import com.terratech.api.error.exceptions.NotFoundException;
 import com.terratech.api.model.User;
 import com.terratech.api.repositories.UserRepository;
 import com.terratech.api.services.UserService;

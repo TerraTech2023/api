@@ -1,5 +1,7 @@
-package com.terratech.api.exception;
+package com.terratech.api.error;
 
+import com.terratech.api.error.exceptions.ConflictException;
+import com.terratech.api.error.exceptions.NotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;

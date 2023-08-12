@@ -2,7 +2,7 @@ package com.terratech.api.integration;
 
 import com.terratech.api.dto.user.UserRequest;
 import com.terratech.api.dto.user.UserResponse;
-import com.terratech.api.exception.ErrorResponse;
+import com.terratech.api.error.ErrorResponse;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.springframework.beans.factory.annotation.Autowired;

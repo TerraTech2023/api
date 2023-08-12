@@ -1,4 +1,4 @@
-package com.terratech.api.exception;
+package com.terratech.api.error.exceptions;
 
 public class NotFoundException extends RuntimeException {
 
