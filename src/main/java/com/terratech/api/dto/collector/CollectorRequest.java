@@ -19,4 +19,12 @@ public record CollectorRequest(
                 .dateOfBirth(this.dateOfBirth())
                 .build();
     }
+
+    public CollectorRequest (Collector collector) {
+        this(collector.getName(),
+                collector.getEmail(),
+                collector.getPassword(),
+                collector.getPassword(),
+                collector.getDateOfBirth());
+    }
 }

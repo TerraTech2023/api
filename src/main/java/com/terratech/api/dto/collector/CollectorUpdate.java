@@ -16,4 +16,8 @@ public record CollectorUpdate(
                 .build();
 
     }
+
+    public CollectorUpdate (Collector collector) {
+        this(collector.getName(), collector.getEmail(), collector.getPassword(), collector.getPassword());
+    }
 }
